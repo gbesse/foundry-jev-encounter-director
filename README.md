@@ -11,3 +11,12 @@ Install `module.json` plus `scripts/` and `styles/` as `Data/modules/jev-encount
 Live inference should be provided by a GM-controlled authenticated gateway. Re-check the scene revision before applying any future action. Player-visible data and hidden GM data must never be mixed without explicit policy.
 
 Independent community module. Not affiliated with Foundry Virtual Tabletop or TypeSafe. MIT licensed.
+
+
+## 2026-11-05 — FR / EN / ES
+
+FR : `previewReceipt(snapshot,response,current)` compare aussi le contenu du snapshot, pour détecter une situation modifiée sans changement de révision. Les beats retournés sont copiés. API de reçu facultative ; le bouton Foundry historique reste en fixture et ne change aucun document. Host Foundry non testé ici.
+
+EN: `previewReceipt(snapshot,response,current)` also compares snapshot content to detect a changed situation without a revision bump. Returned beats are detached copies. Optional receipt API; existing Foundry button remains fixture-only and changes no document. Foundry host not tested here.
+
+ES: `previewReceipt(snapshot,response,current)` compara contenido para detectar situación cambiada sin nueva revisión. Beats devueltos son copias. API de recibo opcional; botón Foundry existente sigue en fixture sin modificar documentos. Host Foundry no probado aquí.

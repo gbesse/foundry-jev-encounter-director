@@ -1,4 +1,11 @@
 export function validateSnapshot(value){if(!value?.sceneId||!Number.isInteger(value.revision)||!Array.isArray(value.beats)||value.beats.length<2||value.beats.length>255)throw new TypeError('Snapshot needs sceneId, revision and 2–255 beats');if(new Set(value.beats.map(x=>x.uuid)).size!==value.beats.length)throw new TypeError('Beat UUIDs must be unique');return structuredClone(value)}
 export function buildRequest(snapshot){validateSnapshot(snapshot);return{model:'jev-1.13.0',state:{sceneId:snapshot.sceneId,situation:snapshot.situation,beats:snapshot.beats},questions:{beat:{type:'choice',instructions:'Choose the declared encounter beat that best maintains pacing and player agency. Never invent content.',criteria:Object.fromEntries(snapshot.beats.map(x=>[x.uuid,{label:x.label}]))},pressure:{type:'score',instructions:'Rate current encounter pressure.',levels:['quiet','building','tense','critical']}}}}
-export function preview(snapshot,response,currentRevision=snapshot.revision){if(currentRevision!==snapshot.revision)return{status:'stale'};const answer=response?.answers?.beat;const beat=answer?.type==='choice'?snapshot.beats.find(x=>x.uuid===answer.choice):null;if(!beat)throw new TypeError('Provider selected an unknown Foundry UUID');return{status:'preview',beat,pressure:response.answers.pressure?.score??null,apply:false}}
+export function preview(snapshot,response,currentRevision=snapshot.revision){if(currentRevision!==snapshot.revision)return{status:'stale'};const answer=response?.answers?.beat;const beat=answer?.type==='choice'?snapshot.beats.find(x=>x.uuid===answer.choice):null;if(!beat)throw new TypeError('Provider selected an unknown Foundry UUID');return{status:'preview',beat:structuredClone(beat),pressure:response.answers.pressure?.score??null,apply:false}}
 export function fakeResponse(snapshot){return{answers:{beat:{type:'choice',choice:snapshot.beats[0].uuid,confidence:.86},pressure:{type:'score',score:'building'}}}}
+
+export function previewReceipt(snapshot,response,current){
+ const canonical=x=>Array.isArray(x)?x.map(canonical):x&&typeof x==='object'?Object.fromEntries(Object.keys(x).sort().map(k=>[k,canonical(x[k])])):x;
+ const captured=validateSnapshot(snapshot),latest=validateSnapshot(current);
+ if(JSON.stringify(canonical(captured))!==JSON.stringify(canonical(latest)))return {status:'stale',apply:false,reason:'snapshot_changed'};
+ return preview(captured,response,latest.revision);
+}
