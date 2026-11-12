@@ -20,3 +20,12 @@ FR : `previewReceipt(snapshot,response,current)` compare aussi le contenu du sna
 EN: `previewReceipt(snapshot,response,current)` also compares snapshot content to detect a changed situation without a revision bump. Returned beats are detached copies. Optional receipt API; existing Foundry button remains fixture-only and changes no document. Foundry host not tested here.
 
 ES: `previewReceipt(snapshot,response,current)` compara contenido para detectar situación cambiada sin nueva revisión. Beats devueltos son copias. API de recibo opcional; botón Foundry existente sigue en fixture sin modificar documentos. Host Foundry no probado aquí.
+
+
+## 2026-11-12 — FR / EN / ES
+
+FR : Valider les identités, révisions sûres et niveaux de pression avant toute prévisualisation. Essais Node sur données synthétiques ; Foundry VTT non exécuté.
+
+EN: Validate declared identities, safe revisions and pressure levels before preview. Synthetic Node tests; Foundry VTT was not executed.
+
+ES: Validar identidades, revisiones seguras y niveles de presión antes de previsualizar. Pruebas Node sintéticas; Foundry VTT no ejecutado.
